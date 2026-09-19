@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "GitHub Pet",
+    "version": "1.0.0",
+    "description": "A Tamagotchi powered by your GitHub activity.",
+    "permissions": [
+        "storage"
+    ],
+    "host_permissions": [
+        "http://localhost:3000/*"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    }
+}

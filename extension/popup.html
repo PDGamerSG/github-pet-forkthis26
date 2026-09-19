@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Pet</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+
+<body>
+
+    <div class="pet-container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="header-title">
+                <span class="mascot-icon">🐙</span>
+                <h1>GitHub Pet</h1>
+            </div>
+            <div id="connection-status" class="status-badge">
+                Checking...
+            </div>
+        </header>
+
+        <!-- Pet Arena / Stage -->
+        <div class="pet-stage" id="pet-stage" title="Tap to pet!">
+            <div class="sparkles" id="sparkles">✨</div>
+            <img
+                id="pet-image"
+                src="images/egg.svg"
+                alt="GitHub Pet"
+                class="pet-avatar"
+            >
+            <div class="pet-shadow"></div>
+        </div>
+
+        <!-- Level & XP Progress Section -->
+        <div class="level-card">
+            <div class="level-header">
+                <span class="level-badge" id="level">Egg</span>
+                <span class="xp-counter" id="xp">XP: 0</span>
+            </div>
+            <div class="xp-bar-container">
+                <div class="xp-bar-fill" id="xp-bar-fill" style="width: 0%;"></div>
+            </div>
+            <div class="xp-subtext">
+                <span id="earned-xp" class="earned-xp">+0 XP this sync</span>
+                <span id="xp-next-info" class="xp-next-info">100 XP to hatch 🌱</span>
+            </div>
+        </div>
+
+        <!-- Pet Speech Bubble -->
+        <div class="speech-bubble">
+            <p class="message" id="message">
+                Connect GitHub to begin!
+            </p>
+        </div>
+
+        <!-- Cute Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card streak-card">
+                <span class="stat-icon">🔥</span>
+                <div class="stat-content">
+                    <span class="stat-label">Streak</span>
+                    <span class="stat-value" id="streak">0 days</span>
+                </div>
+            </div>
+            <div class="stat-card activity-card">
+                <span class="stat-icon">⚡</span>
+                <div class="stat-content">
+                    <span class="stat-label">Activity</span>
+                    <span class="stat-value" id="activity">0 events</span>
+                </div>
+            </div>
+            <div class="stat-card mood-card">
+                <span class="stat-icon">💭</span>
+                <div class="stat-content">
+                    <span class="stat-label">Mood</span>
+                    <span class="stat-value" id="mood">Neutral</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connection Controls / Actions -->
+        <div id="connection-controls" class="actions-section">
+            <button id="connect-button" class="btn-primary">
+                <span>🐙 Connect GitHub</span>
+            </button>
+
+            <div id="connected-actions" class="connected-actions hidden">
+                <button id="sync-button" class="btn-sync">
+                    <span class="sync-icon">🔄</span> Sync Activity
+                </button>
+                <button id="disconnect-button" class="btn-disconnect">
+                    Disconnect
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="popup.js"></script>
+
+</body>
+
+</html>

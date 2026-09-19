@@ -1,0 +1,8 @@
+{
+  "name": "github-pet",
+  "version": "1.0.0",
+  "description": "GitHub Pet - A Tamagotchi powered by your GitHub activity",
+  "scripts": {
+    "start": "npm start --prefix backend"
+  }
+}

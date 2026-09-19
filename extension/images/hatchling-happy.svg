@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="100%" height="100%">
+  <defs>
+    <!-- Baby Duck Yellow Body Gradient -->
+    <linearGradient id="duckHappyYellow" x1="20%" y1="10%" x2="80%" y2="90%">
+      <stop offset="0%" stop-color="#FFF9C4"/>
+      <stop offset="35%" stop-color="#FFE76A"/>
+      <stop offset="85%" stop-color="#FFD13B"/>
+      <stop offset="100%" stop-color="#F6B828"/>
+    </linearGradient>
+
+    <linearGradient id="wingHappyGrad" x1="10%" y1="10%" x2="90%" y2="90%">
+      <stop offset="0%" stop-color="#FFF9BD"/>
+      <stop offset="100%" stop-color="#F5BF23"/>
+    </linearGradient>
+
+    <linearGradient id="beakHappyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFB366"/>
+      <stop offset="100%" stop-color="#FF8A3D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Jumping Cute Feet kicked out -->
+  <ellipse cx="44" cy="95" rx="7.5" ry="4.5" fill="#FF944D" stroke="#E67328" stroke-width="1.2" transform="rotate(-15 44 95)"/>
+  <ellipse cx="76" cy="95" rx="7.5" ry="4.5" fill="#FF944D" stroke="#E67328" stroke-width="1.2" transform="rotate(15 76 95)"/>
+
+  <!-- Chubby Jumping Body -->
+  <path d="M 34 70
+           C 34 56, 43 53, 60 53
+           C 77 53, 86 56, 86 70
+           C 86 88, 76 95, 60 95
+           C 44 95, 34 88, 34 70 Z"
+        fill="url(#duckHappyYellow)" stroke="#EAB308" stroke-width="2"/>
+
+  <!-- Left Wing Flapping Joyfully UP! -->
+  <path d="M 37 63 C 24 52, 17 65, 25 75 C 31 79, 37 74, 38 68 Z"
+        fill="url(#wingHappyGrad)" stroke="#EAB308" stroke-width="1.8"/>
+
+  <!-- Right Wing Flapping Joyfully UP! -->
+  <path d="M 83 63 C 96 52, 103 65, 95 75 C 89 79, 83 74, 82 68 Z"
+        fill="url(#wingHappyGrad)" stroke="#EAB308" stroke-width="1.8"/>
+
+  <!-- Big Kawaii Head -->
+  <ellipse cx="60" cy="40" rx="27" ry="25"
+           fill="url(#duckHappyYellow)" stroke="#EAB308" stroke-width="2"/>
+
+  <!-- Signature Sprout 🌱 Bouncing with Joy -->
+  <path d="M 60 15 C 61 8, 57 5, 55 1" stroke="#5E9C3E" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 55 3 C 46 -1, 45 8, 54 5 Z" fill="#8CE558" stroke="#4D8632" stroke-width="1"/>
+  <path d="M 56 2 C 65 -3, 67 6, 57 4 Z" fill="#75D442" stroke="#4D8632" stroke-width="1"/>
+
+  <!-- Cheerful Happy Eyes (˶^ ᵕ ^˶) -->
+  <path d="M 41 40 Q 46 33 52 40" stroke="#262220" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 51 37 L 54 35" stroke="#262220" stroke-width="2" stroke-linecap="round"/>
+
+  <path d="M 68 40 Q 74 33 79 40" stroke="#262220" stroke-width="3" stroke-linecap="round" fill="none"/>
+  <path d="M 78 37 L 81 35" stroke="#262220" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Extra Rosy Cheeks with Mini Hearts -->
+  <ellipse cx="37" cy="46" rx="7" ry="4.5" fill="#FF7B95" opacity="0.65"/>
+  <ellipse cx="83" cy="46" rx="7" ry="4.5" fill="#FF7B95" opacity="0.65"/>
+  <circle cx="35" cy="45" r="1.3" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="81" cy="45" r="1.3" fill="#FFFFFF" opacity="0.9"/>
+
+  <!-- Open Smiling Happy Beak with Cute Tongue! -->
+  <path d="M 50 43 C 50 39, 70 39, 70 43 C 71 49, 68 56, 60 56 C 52 56, 49 49, 50 43 Z"
+        fill="url(#beakHappyGrad)" stroke="#E6671E" stroke-width="1.6"/>
+  <!-- Open Mouth Cavity -->
+  <path d="M 53 47 C 53 53, 67 53, 67 47 C 65 54, 55 54, 53 47 Z" fill="#B91C1C"/>
+  <!-- Cute Pink Tongue -->
+  <ellipse cx="60" cy="51" rx="4.5" ry="2.5" fill="#FF758F"/>
+
+  <!-- Floating Aesthetic Pastel Hearts & Sparkles -->
+  <path d="M 18 34 C 14 29, 8 34, 18 43 C 28 34, 22 29, 18 34 Z" fill="#FF6B8B"/>
+  <path d="M 102 22 C 99 18, 94 22, 102 29 C 110 22, 105 18, 102 22 Z" fill="#FFA3B5"/>
+
+  <!-- Golden Stars (✦) -->
+  <path d="M 88 16 Q 88 20 92 20 Q 88 20 88 24 Q 88 20 84 20 Q 88 20 88 16 Z" fill="#FFC947"/>
+  <path d="M 27 22 Q 27 25 30 25 Q 27 25 27 28 Q 27 25 24 25 Q 27 25 27 22 Z" fill="#FFC947"/>
+</svg>
