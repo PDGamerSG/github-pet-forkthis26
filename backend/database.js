@@ -182,6 +182,14 @@ function recalculatePetFromRepoActivity() {
 
     return stats;
 }
+function XPfordate(activityDate) {
+    const row =db.prepare(`
+        SELECT COALESCE(SUM(xp),0) AS xp
+        FROM repo_activity
+        WHERE activity_date = ?
+    `).get(activityDate);
+    return row.xp;
+}
 
 function resetPet() {
     db.prepare(`
@@ -213,5 +221,6 @@ module.exports = {
     getDistinctRepos,
     purgeRepoActivity,
     recalculatePetFromRepoActivity,
+    XPfordate,
     resetPet
 };
