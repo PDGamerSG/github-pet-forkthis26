@@ -673,10 +673,15 @@ app.get("/sync-github", async (req, res) => {
             .toISOString()
             .split("T")[0];
 
+        const comparisonDate =
+            lastEventDate && new Date(lastEventDate) > new Date(pet.last_activity || 0)
+                ? lastEventDate
+                : today;
+
         const newStreak =
             calculateStreak(
                 pet.last_activity,
-                lastEventDate || today,
+                comparisonDate,
                 activityStats.active_days || pet.streak
             );
 
