@@ -50,8 +50,9 @@ async function getGitHubEvents(username) {
             if (relKeys[r] === "next") {
                 const parsedUrl = new URL(parsedLinks[relKeys[r]]);
                 const nextPageParam = parsedUrl.searchParams.get("page");
-                if (nextPageParam && Number(nextPageParam) === currentPage) {
-                    currentPage = Number(nextPageParam);
+                const parsedNextPage = Number(nextPageParam);
+                if (nextPageParam && Number.isFinite(parsedNextPage) && parsedNextPage > currentPage) {
+                    currentPage = parsedNextPage;
                     nextFound = true;
                     break;
                 }
