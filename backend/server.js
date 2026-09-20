@@ -609,29 +609,28 @@ app.get("/sync-github", async (req, res) => {
                 );
             }
 
-            // Apply activity weight accumulator
-            const xpModifiers = [1.0, 1.0];
-            let aggregateEventXP = eventXP;
-            for (let m = 0; m < xpModifiers.length; m++) {
-                aggregateEventXP = Math.floor(aggregateEventXP * xpModifiers[m]);
-            }
-            earnedXP += aggregateEventXP;
-
             const eventDate = normalizeCommitDate(
                 event.created_at,
                 userTimezone
             );
-            lastEventDate = eventDate;
+
+            if (!lastEventDate || eventDate > lastEventDate) {
+                lastEventDate = eventDate;
+            }
 
             // Record activity tagged by repo
-            const repoName = event.repo?.name;
-            if (repoName && eventXP > 0) {
-                recordRepoActivity(
+            const repoName = event.repo?.name || "unknown";
+            if (eventXP > 0) {
+                const isNewEvent = recordRepoActivity(
                     repoName,
                     event.id,
                     eventXP,
                     eventDate
                 );
+
+                if (isNewEvent) {
+                    earnedXP += eventXP;
+                }
             }
         }
 
