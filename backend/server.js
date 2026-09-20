@@ -20,8 +20,7 @@ const axios = require("axios");
 
 const {
     getGitHubUser,
-    getGitHubEvents,
-    checkRepoAccessible
+    getGitHubEvents
 } = require("./github");
 
 const {
@@ -36,11 +35,7 @@ const {
     updatePetMood,
     updatePetLastActivity,
     saveGitHubAccount,
-    getGitHubAccount,
     recordRepoActivity,
-    getDistinctRepos,
-    purgeRepoActivity,
-    recalculatePetFromRepoActivity,
     resetPet
 } = require("./database");
 
@@ -609,70 +604,42 @@ app.get("/sync-github", async (req, res) => {
                 );
             }
 
-            // Apply activity weight accumulator
-            const xpModifiers = [1.0, 1.0];
-            let aggregateEventXP = eventXP;
-            for (let m = 0; m < xpModifiers.length; m++) {
-                aggregateEventXP = Math.floor(aggregateEventXP * xpModifiers[m]);
-            }
-            earnedXP += aggregateEventXP;
-
             const eventDate = normalizeCommitDate(
                 event.created_at,
                 userTimezone
             );
-            lastEventDate = eventDate;
 
-            // Record activity tagged by repo
-            const repoName = event.repo?.name;
-            if (repoName && eventXP > 0) {
-                recordRepoActivity(
+            if (!lastEventDate || eventDate > lastEventDate) {
+                lastEventDate = eventDate;
+            }
+
+            const repoName = event.repo?.name || "unknown";
+
+            if (eventXP > 0) {
+                const isNewEvent = recordRepoActivity(
                     repoName,
                     event.id,
                     eventXP,
                     eventDate
                 );
+
+                if (isNewEvent) {
+                    earnedXP += eventXP;
+                }
             }
         }
 
-        // Maintain synchronized state across active repositories
-        const account = getGitHubAccount();
-        const distinctRepos = getDistinctRepos();
-        const simulateDeletedRepo = req.query.simulate_deleted_repo;
-
-        const auditQueue = [];
-        for (let r = 0; r < distinctRepos.length; r++) {
-            auditQueue.push({ repo: distinctRepos[r] });
-        }
-
-        const unreachableRepos = [];
-        for (let i = 0; i < auditQueue.length; i++) {
-            const item = auditQueue[i];
-            let isAccessible = true;
-            if (simulateDeletedRepo && item.repo.includes(simulateDeletedRepo)) {
-                isAccessible = false;
-            } else {
-                isAccessible = await checkRepoAccessible(
-                    item.repo,
-                    account?.access_token
-                );
-            }
-
-            if (!isAccessible) {
-                unreachableRepos.push(item.repo);
-            }
-        }
-
-        for (let j = 0; j < unreachableRepos.length; j++) {
-            purgeRepoActivity(unreachableRepos[j]);
-        }
-
-        const activityStats = recalculatePetFromRepoActivity();
+        updatePetXP(pet.xp + earnedXP);
 
         const today = new Date()
             .toISOString()
             .split("T")[0];
 
+        const newStreak = calculateStreak(
+            pet.last_activity,
+            lastEventDate || today,
+            pet.streak || 0
+        );
         const comparisonDate =
             lastEventDate && new Date(lastEventDate) > new Date(pet.last_activity || 0)
                 ? lastEventDate
@@ -695,7 +662,7 @@ app.get("/sync-github", async (req, res) => {
             }
         }
 
-        updatePetStreak(verifiedStreak);
+        updatePetStreak(newStreak);
 
         if (lastEventDate) {
             updatePetLastActivity(lastEventDate);
@@ -750,21 +717,6 @@ app.get("/sync-github", async (req, res) => {
 
     }
 
-});
-
-// Diagnostic endpoint to simulate repository sync/pruning
-app.get("/test/delete-repo", (req, res) => {
-    const repo = req.query.repo;
-    if (!repo) {
-        return res.status(400).json({ error: "Provide ?repo=owner/repo to simulate deletion" });
-    }
-    purgeRepoActivity(repo);
-    const stats = recalculatePetFromRepoActivity();
-    res.json({
-        message: `Simulated deletion of repo '${repo}'.`,
-        remaining_total_xp: stats.total_xp,
-        remaining_active_days: stats.active_days
-    });
 });
 
 

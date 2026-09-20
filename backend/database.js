@@ -39,6 +39,10 @@ db.prepare(`
         activity_date TEXT
     )
 `).run();
+db.prepare(`
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_event_id
+    ON repo_activity(event_id)
+`).run();
 
 db.prepare(`
     DELETE FROM repo_activity
@@ -157,10 +161,13 @@ function getGitHubAccount() {
 }
 
 function recordRepoActivity(repoName, eventId, xp, activityDate) {
+    const info = db.prepare(`
     db.prepare(`
         INSERT OR IGNORE INTO repo_activity (repo_name, event_id, xp, activity_date)
         VALUES (?, ?, ?, ?)
     `).run(repoName, eventId, xp, activityDate);
+
+    return info.changes > 0;
 }
 
 function getDistinctRepos() {
