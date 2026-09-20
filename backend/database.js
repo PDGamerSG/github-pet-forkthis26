@@ -44,6 +44,22 @@ db.prepare(`
     ON repo_activity(event_id)
 `).run();
 
+db.prepare(`
+    DELETE FROM repo_activity
+    WHERE rowid NOT IN (
+        SELECT MIN(rowid)
+        FROM repo_activity
+        GROUP BY event_id
+    )
+`).run();
+
+try {
+    db.prepare(`
+        CREATE UNIQUE INDEX idx_repo_activity_event_id
+        ON repo_activity(event_id)
+    `).run();
+} catch (error) {}
+
 const existingPet =
     db.prepare(
         "SELECT * FROM pet WHERE id = 1"
@@ -146,6 +162,7 @@ function getGitHubAccount() {
 
 function recordRepoActivity(repoName, eventId, xp, activityDate) {
     const info = db.prepare(`
+    db.prepare(`
         INSERT OR IGNORE INTO repo_activity (repo_name, event_id, xp, activity_date)
         VALUES (?, ?, ?, ?)
     `).run(repoName, eventId, xp, activityDate);

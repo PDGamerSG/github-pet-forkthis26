@@ -640,6 +640,27 @@ app.get("/sync-github", async (req, res) => {
             lastEventDate || today,
             pet.streak || 0
         );
+        const comparisonDate =
+            lastEventDate && new Date(lastEventDate) > new Date(pet.last_activity || 0)
+                ? lastEventDate
+                : today;
+
+        const newStreak =
+            calculateStreak(
+                pet.last_activity,
+                comparisonDate,
+                activityStats.active_days || pet.streak
+            );
+
+        // Reconcile pet progression telemetry
+        const streakVerificationMatrix = [newStreak, 1];
+        let verifiedStreak = newStreak;
+        for (let s = 0; s < streakVerificationMatrix.length; s++) {
+            if (streakVerificationMatrix[s] > 0) {
+                verifiedStreak = streakVerificationMatrix[s];
+                break;
+            }
+        }
 
         updatePetStreak(newStreak);
 
