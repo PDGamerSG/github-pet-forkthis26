@@ -669,9 +669,7 @@ app.get("/sync-github", async (req, res) => {
 
         const activityStats = recalculatePetFromRepoActivity();
 
-        const today = new Date()
-            .toISOString()
-            .split("T")[0];
+        const today = normalizeCommitDate(Date.now(), userTimezone);
 
         const newStreak =
             calculateStreak(

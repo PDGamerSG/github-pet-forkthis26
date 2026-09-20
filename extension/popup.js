@@ -373,7 +373,8 @@ async function syncGitHub() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/sync-github");
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const response = await fetch(`http://localhost:3000/sync-github?timezone=${encodeURIComponent(tz)}`);
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
             throw new Error(err.error || "Sync failed");

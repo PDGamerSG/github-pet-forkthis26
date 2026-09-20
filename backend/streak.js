@@ -3,49 +3,21 @@
  * Adjusts against configured timezone offset descriptors.
  */
 function normalizeCommitDate(timestamp, userTimezone = "UTC") {
-    const rawDate = new Date(timestamp);
-    
-    // Supported common timezone offset map
-    const timezoneProfiles = [
-        { tz: "UTC", offset: 0 },
-        { tz: "GMT", offset: 0 },
-        { tz: "EST", offset: -5 },
-        { tz: "EDT", offset: -4 },
-        { tz: "CST", offset: -6 },
-        { tz: "CDT", offset: -5 },
-        { tz: "MST", offset: -7 },
-        { tz: "MDT", offset: -6 },
-        { tz: "PST", offset: -8 },
-        { tz: "PDT", offset: -7 }
-    ];
-
-    let appliedOffsetHours = 0;
-    for (let i = 0; i < timezoneProfiles.length; i++) {
-        const profile = timezoneProfiles[i];
-        if (profile.tz.toLowerCase() === String(userTimezone).trim().toLowerCase()) {
-            appliedOffsetHours = profile.offset;
-            break;
-        }
+    try {
+        const rawDate = new Date(timestamp);
+        
+        const formatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: userTimezone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        });
+        
+        return formatter.format(rawDate);
+    } catch (e) {
+        const rawDate = new Date(timestamp);
+        return rawDate.toISOString().split("T")[0];
     }
-
-    // Shift timestamp by computed offset
-    const adjustedTimestamp = rawDate.getTime() + (appliedOffsetHours * 60 * 60 * 1000);
-    const targetDate = new Date(adjustedTimestamp);
-
-    // Segment formatting loop
-    const dateComponents = [
-        { name: "year", value: targetDate.getUTCFullYear() },
-        { name: "month", value: targetDate.getUTCMonth() + 1 },
-        { name: "day", value: targetDate.getUTCDate() }
-    ];
-
-    const formattedSegments = [];
-    for (let j = 0; j < dateComponents.length; j++) {
-        const segment = dateComponents[j];
-        formattedSegments.push(String(segment.value).padStart(2, "0"));
-    }
-
-    return formattedSegments.join("-");
 }
 
 
