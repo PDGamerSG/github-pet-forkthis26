@@ -141,10 +141,15 @@ function getGitHubAccount() {
 }
 
 function recordRepoActivity(repoName, eventId, xp, activityDate) {
+    const alreadyExist = db.prepare(`SELECT 1 FROM repo_activity WHERE event_id=?`).get(eventId);
+    if (alreadyExist){
+        return false;
+    }
     db.prepare(`
         INSERT INTO repo_activity (repo_name, event_id, xp, activity_date)
         VALUES (?, ?, ?, ?)
     `).run(repoName, eventId, xp, activityDate);
+    return true;
 }
 
 function getDistinctRepos() {
